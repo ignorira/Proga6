@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include "algoritms.h"
 
 class IsDivide {
 public:
@@ -46,59 +47,6 @@ bool is_equals(T x, T y) {
 bool is_equalsPoints(Point p1, Point p2) {
     return (p1.getX() == p2.getX()) && (p1.getY() == p2.getY());
 }
-// =========================================================
-template<class T, class Predicate>
-bool any_of(T obj, Predicate p) {
-    typename T::const_iterator it = obj.begin();
-    while (it != obj.end()) {
-        if (p(*it))
-            return true;
-        ++it;
-    }
-
-    return false;
-}
-
-template<class T, class Predicate>
-bool is_partitioned(T obj, Predicate p) {
-    typename T::const_iterator it = obj.begin();
-    char changed = 0;
-    char parted = -1;
-    while (it != obj.end()) {
-        bool cur = p(*it++);
-        if (cur && parted == -1)
-            parted = 1;
-        else if (!cur && parted == -1)
-            parted = 0;
-        else if (!cur && !parted && changed)
-            return false;
-        else if (cur && parted && changed)
-            return false;
-
-        if (!changed) {
-            if (cur && !parted)
-                changed = 1;
-            else if (!cur && parted)
-                changed = 1;
-        }
-    }
-    return true;
-}
-
-
-template<class T, class P, class U>
-P find_not(T obj, P p, bool (*compare)(U o1, U o2)) {
-    typename T::const_iterator it = obj.begin();
-
-    while (it < obj.end() - 1) {
-        if (!compare(p, *it)) {
-            return *it;
-        }
-        ++it;
-    }
-
-
-}
 
 int main() {
 
@@ -109,8 +57,8 @@ int main() {
     v1.push_back(3);
     v1.push_back(4);
 
-    std::cout << "Is and op v1 divided by 3 is " << ((any_of(v1, IsDivide())) ? "true" : "false") << "\n";
-    std::cout << "One op v1 is 3 is " << (is_partitioned(v1,IsDivide()) ? "true" : "false") << "\n";
+    std::cout << "Is and of v1 divided by 3 is " << ((any_of(v1, IsDivide())) ? "true" : "false") << "\n";
+    std::cout << "One of v1 divided by 3 is " << (is_partitioned(v1, IsDivide()) ? "true" : "false") << "\n";
     int a = find_not(v1, 1, is_equals<int>);
     std::cout << "first elem that is not equal to 1 is " << a << "\n";
 
